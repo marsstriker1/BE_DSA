@@ -45,9 +45,9 @@ float evalPostfix(string expr)
 }
 int main()
 {
-    float a=0;
-    char aa=static_cast<char>(49);
-    //cout<<aa;
-    cout<<evalPostfix("456*+");
+    string expr;
+    cout<<"Enter Postfix expression: ";
+    cin>>expr;
+    cout<<expr<<" = "<<evalPostfix(expr);
     return 0;
 }
