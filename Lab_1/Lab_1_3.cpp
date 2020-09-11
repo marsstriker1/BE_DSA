@@ -49,4 +49,5 @@ int main()
     char aa=static_cast<char>(49);
     //cout<<aa;
     cout<<evalPostfix("456*+");
+    return 0;
 }

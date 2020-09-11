@@ -34,10 +34,6 @@ class Stack
       cout<<"Stack is empty!\nYou must add an item to proceed.";
       return item;
   }
-  t topItem()
-  {
-      return stack[top];
-  }
   void push(t data)
   {
       if(!isFull())
@@ -79,8 +75,7 @@ int main()
         case '2':
         {
             
-            cout<<s.topItem()<<" Popped";
-            s.pop();
+            cout<<s.pop()<<" Popped";
             break;
         }
         default:
@@ -93,4 +88,5 @@ int main()
     cin>>op;
     s.showStack();
     } while (toupper(op)=='Y');
+    return 0;
 }
