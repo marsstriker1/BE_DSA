@@ -7,11 +7,25 @@ bool checkParan(string expr)
     st.push('T');
     for(int i=0;i<expr.length();i++)
     {
-        if(expr[i]=='(')
-        st.push('(');
+        if(expr[i]=='(' || expr[i]=='{' || expr[i]=='[')
+        st.push(expr[i]);
         else if(expr[i]==')')
         {
-            if(st.top()!='T')
+            if(st.top()!='T' && st.top()!='{' && st.top()!='[')
+            st.pop();             
+            else 
+            return false;
+        }
+        else if(expr[i]=='}')
+        {
+            if(st.top()!='T' && st.top()!='(' && st.top()!='[')
+            st.pop();             
+            else 
+            return false;
+        }
+        else if(expr[i]==']')
+        {
+            if(st.top()!='T' && st.top()!='(' && st.top()!='{')
             st.pop();             
             else 
             return false;

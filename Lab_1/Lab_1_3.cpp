@@ -1,3 +1,4 @@
+/*Not modified to work for expressions having two digit number as a operand*/
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -31,7 +32,7 @@ float evalPostfix(string expr)
         {
             st.push(expr[i]);
         }
-        else if(expr[i]=='+' ||expr[i]=='-' ||expr[i]=='*' ||expr[i]=='/')
+        else if(expr[i]=='+' ||expr[i]=='-' ||expr[i]=='*' ||expr[i]=='/' || expr[i]=='^')
         {
             a=static_cast<float>(st.top()-48);
             st.pop();
