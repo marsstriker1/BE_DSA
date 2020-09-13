@@ -61,10 +61,10 @@ class Stack
 };
 int main()
 {
-    int type;
-    cout<<"Enter type data to be entered:\n1)Number\n2)Character";
-    cin>>type;
-    Stack<int> s(5);
+    int max;
+    cout<<"Enter maximum stack capacity: ";
+    cin>>max;
+    Stack<int> s(max);
     int item;
     char choice,op;
     do
