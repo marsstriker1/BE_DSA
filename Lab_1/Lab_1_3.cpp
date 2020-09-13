@@ -1,9 +1,20 @@
-/*Not modified to work for expressions having two digit number as a operand*/
 #include<bits/stdc++.h>
-#include <cmath>
 using namespace std;
 
-float getRes(float a, float b, char op)
+int toDigit(char c)
+{
+    if(c>47 && c<58)
+        return ( c - 48);
+    else
+        return -1;
+}
+bool isOperator(char symbol)
+{
+    if(symbol=='+' || symbol=='-' || symbol=='*' || symbol=='/' || symbol=='^')
+    return true;
+    return false;
+}
+int getRes(float a, float b, char op)
 {
     switch(op)
             {
@@ -24,34 +35,66 @@ float getRes(float a, float b, char op)
                 }
             }
 }
-float evalPostfix(string expr)
-{
-    stack <char> st;
-    float a,b;
-    float res;
-    for(int i=0;i<expr.length();i++)
-    {
-        if(expr[i]>='0' && expr[i]<='9')
-        {
-            st.push(expr[i]);
-        }
-        else if(expr[i]=='+' ||expr[i]=='-' ||expr[i]=='*' ||expr[i]=='/' || expr[i]=='^')
-        {
-            a=static_cast<float>(st.top()-48);
-            st.pop();
-            b=static_cast<float>(st.top()-48);
-            st.pop();
-            res=getRes(a,b,expr[i]);
-            st.push(static_cast<char>(res+48));
-        }
-    }
-    return static_cast<float>(st.top()-48);
-}
 int main()
 {
-    string expr;
-    cout<<"Enter Postfix expression: ";
-    cin>>expr;
-    cout<<expr<<" = "<<evalPostfix(expr);
-    return 0;
+    string  postfix;
+    char symbol;
+    int operand = 0;
+    stack<int> opStack;
+    opStack.push('N');
+    int op1, op2;
+
+    cout<<"\nEnter the postfix expression to evaluate [e.g. 10,20* ]  ";
+    cin>>postfix;
+
+     for(int i=0 , p = -1;i<postfix.length();i++)
+     {
+        symbol = postfix[i];
+         if(toDigit(symbol) != -1)
+         {
+             if(i == postfix.length() -1)
+             {
+                 cout<<"\nInvalid expression!!";
+                 exit(0);
+             }
+            p++;
+         }
+         else if(symbol == ',' || isOperator(symbol) && !isOperator(postfix[i-1]))
+         {
+            for( ;p>=0;p--)
+                operand += pow(10,p)*toDigit(postfix[i-p-1]);
+
+            opStack.push(operand);
+            operand = 0;
+         }
+         else if (isOperator(postfix[i-1])) {}
+         else
+         {
+            cout<<"\nInvalid symbol in expression!!";
+            exit(0);
+         }
+
+         if(isOperator(symbol))
+         {
+        //   try{
+             op2 = opStack.top();
+             opStack.pop();
+             op1 = opStack.top();
+             opStack.pop();
+             opStack.push(getRes(op2,op1,symbol));
+            //  }
+            //  catch(Stack<int>::UNDERFLOW)
+            //  {
+            //      cout<<"\nInvalid expression!!";
+            //      exit(0);
+            //  }
+         }
+    }
+    int result = opStack.top();
+    opStack.pop();
+
+    if(opStack.top()=='N')
+        cout<<postfix<<" = "<<result;
+    else
+        cout<<"\nInvalid expression";
 }
