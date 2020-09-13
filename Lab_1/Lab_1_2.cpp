@@ -28,18 +28,27 @@ string infixToPostfix(string Expr)
         
         else if(Expr[i]==')')
         {
+            //begin:
             do
             {
+                if(st.top()!='(')
                 postExpr=postExpr+st.top();
                 st.pop();
-                if(st.top()=='(')
-                    st.pop();
-            }while(st.top()!='(' && st.top()!='N');  
+                // if(st.top()=='(')
+                //     st.pop();
+            }while(st.top()!='(' && st.top()!='N'); 
+            if(st.top()=='(')
+            {
+                st.pop();
+                // if(st.top()!='N')
+                // goto begin;
+            }
+                    
         }
         else if(Expr[i]=='(')      
         st.push('(');
         
-        else
+        else if (Expr[i]=='+' || Expr[i]=='-' ||Expr[i]=='*' ||Expr[i]=='/' ||Expr[i]=='^')
         {
             if(precedence(Expr[i])>precedence(st.top()))
             st.push(Expr[i]);
@@ -50,6 +59,11 @@ string infixToPostfix(string Expr)
             st.push(Expr[i]);
             }
         }
+    }
+    while(st.top()!='N')
+    {
+        postExpr=postExpr+st.top();
+            st.pop();
     }
     return postExpr;
 }
@@ -75,7 +89,7 @@ string infixToPrefix(string Expr)
 
 int main()
 {
-    string Expr =  "(a-b/c)*(d/e-f)";
+    string Expr =  "a+(b/c)";//(a-(b)/c)*(d/e-f)";
     cout<<"Postfix: "<<infixToPostfix(Expr)<<"\nPrefix: "<<infixToPrefix(Expr);
     return 0;
 }
