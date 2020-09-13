@@ -1,5 +1,6 @@
 /*Not modified to work for expressions having two digit number as a operand*/
 #include<bits/stdc++.h>
+#include <cmath>
 using namespace std;
 
 float getRes(float a, float b, char op)
@@ -14,6 +15,8 @@ float getRes(float a, float b, char op)
                     return b*a;
                 case '/':
                     return b/a;
+                case '^':
+                    return pow(b,a);
                 default:
                 {
                 cout<<"error!";
