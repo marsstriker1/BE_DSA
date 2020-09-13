@@ -13,7 +13,7 @@ int precedence(char optr)
         return -1;
 }
 
-string infixToPostfix(string Expr)
+string infixToPostfix(string Expr)//,bool post)
 {
     stack<char> st;
     string postExpr;
@@ -28,20 +28,17 @@ string infixToPostfix(string Expr)
         
         else if(Expr[i]==')')
         {
-            //begin:
             do
             {
                 if(st.top()!='(')
-                postExpr=postExpr+st.top();
-                st.pop();
-                // if(st.top()=='(')
-                //     st.pop();
+                {
+                    postExpr=postExpr+st.top();
+                    st.pop();
+                }
             }while(st.top()!='(' && st.top()!='N'); 
-            if(st.top()=='(')
+            if(st.top()=='(')// && post)
             {
                 st.pop();
-                // if(st.top()!='N')
-                // goto begin;
             }
                     
         }
@@ -82,14 +79,14 @@ string infixToPrefix(string Expr)
             i++;
         }
     }
-    string revExpr = infixToPostfix(Expr);
+    string revExpr = infixToPostfix(Expr);//,false);
     reverse(revExpr.begin(),revExpr.end());
     return revExpr;
 }
 
 int main()
 {
-    string Expr =  "a+(b/c)";//(a-(b)/c)*(d/e-f)";
+    string Expr =  "(a/b+c)-(d+e*f)";//(a-(b)/c)*(d/e-f)";
     cout<<"Postfix: "<<infixToPostfix(Expr)<<"\nPrefix: "<<infixToPrefix(Expr);
     return 0;
 }
