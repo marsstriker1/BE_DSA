@@ -23,7 +23,7 @@ string infixToPostfix(string Expr)
     
     for(int i=0;i<length;i++)
     {
-        if(Expr[i]>='a' && Expr[i]<='z')
+        if((Expr[i]>='a' && Expr[i]<='z') || (Expr[i]>='0' && Expr[i]<='9'))
         postExpr+=Expr[i];
         
         else if(Expr[i]==')')
