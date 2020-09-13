@@ -13,7 +13,7 @@ int precedence(char optr)
         return -1;
 }
 
-string infixToPostfix(string Expr)//,bool post)
+string infixToPostfix(string Expr)
 {
     stack<char> st;
     string postExpr;
@@ -34,7 +34,7 @@ string infixToPostfix(string Expr)//,bool post)
                     st.pop();
 
             }
-            if(st.top()=='(')// && post)
+            if(st.top()=='(')
             {
                 st.pop();
             }
@@ -68,25 +68,23 @@ string infixToPrefix(string Expr)
     reverse(Expr.begin(),Expr.end());
     for(int i=0;i<Expr.length();i++)
     {
-        if (Expr[i] == '(') {
+        if (Expr[i] == '(') 
             Expr[i] = ')';
-            i++;
-        }
-        else if (Expr[i] == ')') {
+        
+        else if (Expr[i] == ')') 
             Expr[i] = '(';
-            i++;
-        }
+        
     }
-    string revExpr = infixToPostfix(Expr);//,false);
+    string revExpr = infixToPostfix(Expr);
     reverse(revExpr.begin(),revExpr.end());
     return revExpr;
 }
 
 int main()
 {
-    string Expr;// =  "(a/(b+c))-(d+e*f)";//(a-(b)/c)*(d/e-f)";
+    string Expr;
     cout<<"Enter infix expression:";
     cin>>Expr;
-    cout<<"Postfix: "<<infixToPostfix(Expr)<<"\nPrefix: "<<infixToPrefix(Expr);
+    cout<<"\nPostfix: "<<infixToPostfix(Expr)<<"\nPrefix: "<<infixToPrefix(Expr);
     return 0;
 }
