@@ -84,7 +84,9 @@ string infixToPrefix(string Expr)
 
 int main()
 {
-    string Expr =  "(a/(b+c))-(d+e*f)";//(a-(b)/c)*(d/e-f)";
+    string Expr;// =  "(a/(b+c))-(d+e*f)";//(a-(b)/c)*(d/e-f)";
+    cout<<"Enter infix expression:";
+    cin>>Expr;
     cout<<"Postfix: "<<infixToPostfix(Expr)<<"\nPrefix: "<<infixToPrefix(Expr);
     return 0;
 }
