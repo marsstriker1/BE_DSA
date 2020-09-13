@@ -76,18 +76,11 @@ int main()
 
          if(isOperator(symbol))
          {
-        //   try{
              op2 = opStack.top();
              opStack.pop();
              op1 = opStack.top();
              opStack.pop();
              opStack.push(getRes(op2,op1,symbol));
-            //  }
-            //  catch(Stack<int>::UNDERFLOW)
-            //  {
-            //      cout<<"\nInvalid expression!!";
-            //      exit(0);
-            //  }
          }
     }
     int result = opStack.top();
