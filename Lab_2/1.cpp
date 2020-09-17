@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 template<class t>
 class Queue
@@ -8,17 +7,13 @@ class Queue
   int rear;
   const int SIZE;
   t * q;
-  bool first,firstD,end;
   
   public:
   Queue(int n):SIZE(n)
   {
       q=new t[SIZE];
-      front=0;
-      rear=0;
-      first =true;
-      firstD =true;
-      end=false;
+      front=-1;
+      rear=-1;
   }
   ~Queue()
   {
@@ -26,7 +21,6 @@ class Queue
   }
   class OVERFLOW{};
   class UNDERFLOW{};
-  class QUEUEEND{};
   bool isFull()
   {
       if(rear==SIZE-1)
@@ -38,54 +32,28 @@ class Queue
   }
   bool isEmpty()
   {
-      if(firstD)
-      {
-          firstD=false;
-          return false;
-
-      }
-      if(front==rear && rear==0)
+      if(rear==-1 || front==SIZE-1)
       {
           throw(UNDERFLOW());
-          
-          return true;
-      }
-      if(end)
-      {
-          throw(QUEUEEND());
           return true;
       }
       return false;
   }
   void enqueue(t item)
-  {
-      
+  {    
       if(!isFull())
       {
-          if(!first)
               rear++;
               q[rear]=item;
-              first=false;
-            
-        cout<<"Rear=" << rear<<endl;
       }
   }
   t dequeue()
   {
       t data;
-      if(!isEmpty() || (rear==0))
+      if(!isEmpty() )
       {
+          front++;
           data=q[front];
-          if(front!=rear)
-          {
-              front++;
-              cout<<"F and R=> "<<front<<rear<<endl;
-              end=false;
-          }
-          else
-          {
-              end=true;
-          }
       }
       return data;
   }
@@ -103,7 +71,7 @@ int main()
     {
     try
     {
-    cout<<"Enter operation: ";
+    cout<<"Enter operation:\n1)Enqueue\n2)Dequeue:\t";
     cin>>sel;
     if(sel==1)
     {
@@ -128,11 +96,6 @@ int main()
     catch(Queue<int>::UNDERFLOW)
     {
         cout<<"Queue is empty!";
-        op=='Y';
-    }
-    catch(Queue<int>::QUEUEEND)
-    {
-        cout<<"End of the filled Queue has been reached!";
         op=='Y';
     }
     cout<<"\nContinue?:";
