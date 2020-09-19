@@ -1,5 +1,5 @@
+/*WAP to Perform enqueue and dequeue operations in Linear Queue*/
 #include <iostream>
-
 using namespace std;
 template<class t>
 class Queue
@@ -8,25 +8,20 @@ class Queue
   int rear;
   const int SIZE;
   t * q;
-  bool first,firstD,end;
   
   public:
   Queue(int n):SIZE(n)
   {
       q=new t[SIZE];
-      front=0;
-      rear=0;
-      first =true;
-      firstD =true;
-      end=false;
+      front=-1;
+      rear=-1;
   }
   ~Queue()
   {
       delete []q;
   }
-  class OVERFLOW{};
-  class UNDERFLOW{};
-  class QUEUEEND{};
+  class OVERFLOW{};                         /*Exception for queue is full*/
+  class UNDERFLOW{};                        /*Exception for queue is empty*/
   bool isFull()
   {
       if(rear==SIZE-1)
@@ -38,58 +33,36 @@ class Queue
   }
   bool isEmpty()
   {
-      if(firstD)
-      {
-          firstD=false;
-          return false;
-
-      }
-      if(front==rear && rear==0)
+      if(rear==-1 || front==SIZE-1)         /*front does not go back after reaching the end even if space is available*/
       {
           throw(UNDERFLOW());
-          
-          return true;
-      }
-      if(end)
-      {
-          throw(QUEUEEND());
           return true;
       }
       return false;
   }
-  void enqueue(t item)
-  {
-      
-      if(!isFull())
-      {
-          if(!first)
-              rear++;
-              q[rear]=item;
-              first=false;
-            
-        cout<<"Rear=" << rear<<endl;
-      }
+  void enqueue(t item)                      
+  {    
+      if(rear==-1)
+      front=0;
+              rear++;                       /*points rear towards next available space*/
+              q[rear]=item;                 /*assigns passed data to that location*/
   }
   t dequeue()
   {
-      t data;
-      if(!isEmpty() || (rear==0))
-      {
-          data=q[front];
-          if(front!=rear)
-          {
-              front++;
-              cout<<"F and R=> "<<front<<rear<<endl;
-              end=false;
-          }
-          else
-          {
-              end=true;
-          }
-      }
+      t data;                   
+          data=q[front];                    /*returns data pointed by front(Not necessary to do while performing dequeue operation)*/
+          front++;                          /*points front towards next element of queue*/ 
       return data;
   }
-  
+  void show()
+  {
+      cout<<"Queue:\t";
+      if(front==SIZE-1)
+      cout<<q[front]<<"\t";
+      else if(!isEmpty())
+      for(int i = front;i<=rear;i++)
+      cout<<q[i]<<"\t";
+  }
 };
 int main()
 {
@@ -103,22 +76,24 @@ int main()
     {
     try
     {
-    cout<<"Enter operation: ";
+    cout<<"Enter operation:\n1)Enqueue\n2)Dequeue:\t";
     cin>>sel;
-    if(sel==1)
+    if(sel==1 && !a.isFull())
     {
         cout<<"Enter data: ";
         cin>>n;
         a.enqueue(n);
+        cout<<n<<" enqueued\n";
     }
-    else if(sel==2)
+    else if(sel==2 && !a.isEmpty())
     {
-        cout<<a.dequeue();
+        cout<<a.dequeue()<<" dequeued\n";
     }
     else
     {
         cout<<"Invalid choice!";
     }
+    a.show();
     }
     catch(Queue<int>::OVERFLOW)
     {
@@ -128,11 +103,6 @@ int main()
     catch(Queue<int>::UNDERFLOW)
     {
         cout<<"Queue is empty!";
-        op=='Y';
-    }
-    catch(Queue<int>::QUEUEEND)
-    {
-        cout<<"End of the filled Queue has been reached!";
         op=='Y';
     }
     cout<<"\nContinue?:";
