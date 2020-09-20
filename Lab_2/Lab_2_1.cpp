@@ -76,7 +76,7 @@ int main()
     {
     try
     {
-    cout<<"Enter operation:\n1)Enqueue\n2)Dequeue:\t";
+    cout<<"Enter operation:\t\t1)Enqueue\t2)Dequeue:\t";
     cin>>sel;
     if(sel==1 && !a.isFull())
     {

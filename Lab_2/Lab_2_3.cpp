@@ -117,7 +117,7 @@ class Deque
       }
       else if(front == rear)
       {
-          data= d[front];
+          data= d[rear];
           front=-1;
           rear=-1;
           count--;
@@ -147,7 +147,7 @@ class Deque
           int i=front;
           int num=0;
           bool loop=true;
-          cout<<"Deque: ";
+          cout<<"\t\tDeque: ";
           while(loop && num<=count)
           {
               if(count==1)
@@ -194,7 +194,7 @@ int main()
     {
     try
     {
-    cout<<"Enter operation: \n1)Add at Begining\n2)Add at end\n3)Delete from Begining\n4)Delete from End\t";
+    cout<<"Enter operation: \n1)Add at Begining\t2)Add at end\t3)Delete from Begining\t4)Delete from End\t";
     cin>>sel;
     switch (sel)
     {
@@ -241,7 +241,6 @@ int main()
     }
     cout<<"\nContinue?:";
     cin>>op;
-    // a.show();
     }while(toupper(op)=='Y' || op=='1');
     return 0;
 }
