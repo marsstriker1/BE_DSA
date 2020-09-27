@@ -1,6 +1,4 @@
 #include<iostream>
-#include<conio.h>
-
 template<class T>
 class Node
 {
@@ -123,9 +121,13 @@ T List<T>::deleteFromEnd()
         Node<T>* q = nullptr;
             for(;p->next != nullptr; q = p, p = p->next) ;
         if(q == nullptr)
-        {   start = nullptr;    }
+        {   
+            start = nullptr;
+        }
         else
-        {   q->next = nullptr;  }
+        {   
+            q->next = nullptr;  
+        }
         temp = p->item;
         delete p;
         return  temp;
@@ -168,8 +170,7 @@ void List<T>::display()
 int main()
 {
     List<int> ilist;
-    char option ;
-    int no ,index;
+    int no ,index,selection;
     Node<int>* ptr;
 
     while(true)
@@ -177,66 +178,77 @@ int main()
         try
         {
             std::cout<<"\nEnter operation to perform: 1.INSERT  2.DELETE 3.EXIT  ";
-            option = getche();
-            if(option == '1')
+            std::cin>>selection;
+            if(selection == 1)
             {
                 std::cout<<"\nWhere to insert: 1.BEGINING  2.BEFORE-INDEX  3.AFTER-INDEX  4.END ";
-                option = getche();
+                std::cin>>selection;
                 std::cout<<"\nEnter a number to insert: ";
                 std::cin>>no;
-                if(option == '1')
+                if(selection == 1)
                     ilist.insertAtBeg(no);
-                else if(option == '4')
+                else if(selection == 4)
                     ilist.insertAtEnd(no);
-                else if(option == '2')
+                else if(selection == 2)
                 {
                     std::cout<<"Enter index ";
                     std::cin>>index;
                     ptr = ilist.getNode(index);
                     ilist.insertBefore(ptr,no);
                 }
-                else if(option == '3')
+                else if(selection == 3)
                 {
                     std::cout<<"Enter index ";
                     std::cin>>index;
                     ptr = ilist.getNode(index);
                     ilist.insertAfter(ptr,no);
                 }
-                else { break; }
-
+                else
+                {
+                    break;
+                }
             }
-            else if(option == '2')
+            else if(selection == 2)
             {
                 std::cout<<"\nWhere to delete from: 1.BEGINING  2.AFTER-INDEX  3.END ";
-                option = getche();
-                if(option == '1')
+                std::cin>>selection;
+                if(selection == 1)
                 {
                     std::cout<<"\n";
                     ilist.deleteFromBeg();
                 }
-                else if(option == '3')
+                else if(selection == 3)
                 {
                     std::cout<<"\n";
                     ilist.deleteFromEnd();
                 }
-                else if(option == '2')
+                else if(selection == 2)
                 {
                     std::cout<<"\nEnter index ";
                     std::cin>>index;
                     ptr = ilist.getNode(index);
                     ilist.deleteAfter(ptr);
                 }
-                else { break; }
+                else
+                {
+                    break;
+                }
             }
-           else
-           {  break; }
+            else
+            {
+                break;
+            }
            std::cout<<"\nLIST: ";
            ilist.display();
         }
         catch(List<int>::EMPTY)
-        { std::cout<<" EMPTY!! "; }
+        {
+            std::cout<<"List is Empty! ";
+        }
         catch(List<int>::INVALID_INDEX)
-        { std::cout<<" INVALID INDEX!! "; }
+        {
+            std::cout<<" INVALID INDEX!! ";
+        }
     }
-
+return 0;
 }

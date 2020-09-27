@@ -1,5 +1,4 @@
 #include<iostream>
-#include<conio.h>
 #include"list.h"
 
 template<class T>
@@ -32,7 +31,8 @@ int main()
     {
         try
         {
-            std::cout<<"\nEnter operation to perform: 1.ENQUEUE  2.DEQUEUE 3.EXIT  ";
+            std::cout<<"\nEnter operation to perform:";
+            std::cout<<" 1.ENQUEUE  2.DEQUEUE 3.EXIT  ";
             std::cin>>selection;
             if(selection == 1)
             {
@@ -56,4 +56,5 @@ int main()
             std::cout<<"\nQueue is Empty!";
         }
     }
+    return 0;
 }

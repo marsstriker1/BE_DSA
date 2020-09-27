@@ -7,7 +7,7 @@ class List
     int maxSize;
     static const int increment=10;
     int size;
-    void increaseSize();
+    void incSize();
 public:
     class EMPTY{};
     class INVALID_INDEX{};
@@ -36,7 +36,7 @@ int List<T>::getsize()
     return size;
 }
 template<class T>
-void List<T>::increaseSize()
+void List<T>::incSize()
     {
         maxSize+=increment;
         T* temp = new T[maxSize];
@@ -51,7 +51,7 @@ void List<T>::insert(int index ,T _item)
         if(index > size || index < 0)
             throw INVALID_INDEX();
         if(size == maxSize)
-            increaseSize();
+            incSize();
         for(int i=size;i>index;i--)
             elements[i] = elements[i-1];
         size++;
@@ -61,7 +61,7 @@ template<class T>
 void List<T>::insert(T _item)
     {
         if(size == maxSize)
-            increaseSize();
+            incSize();
         elements[size] = _item;
         size++;
     }

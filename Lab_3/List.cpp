@@ -1,5 +1,4 @@
 #include<iostream>
-#include<conio.h>
 #include "list.h"
 
 int main()
@@ -11,7 +10,8 @@ int main()
     {
         try
         {
-            std::cout<<"\n\nEnter operation to perform: 1.INSERT  2.INSERT-AT-INDEX  3.REMOVE  4.REMOVE-FROM-INDEX  5.EXIT  ";
+            std::cout<<"\n\nEnter operation to perform: 1.INSERT  ";
+            std::cout<<"2.INSERT-AT-INDEX  3.REMOVE  4.REMOVE-FROM-INDEX  5.EXIT  ";
             std::cin>>selection;
 
             if(selection == 1)
@@ -45,7 +45,7 @@ int main()
         }
         catch(List<int>::EMPTY)
         {
-            std::cout<<"\nQueue is Empty!";
+            std::cout<<"\nList is Empty!";
         }
         catch(List<int>::INVALID_INDEX)
         {
