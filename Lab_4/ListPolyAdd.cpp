@@ -25,7 +25,7 @@ void Poly::displayP(List<float> _list)
     {
         cout<<_list.removeFromFront()<<"x^"<<i-1<<" + ";
     }
-    cout<<"\b\b  \b\b";
+    cout<<"\b\b\b\b\b\b      \b\b\b\b\b\b";
 }
 void Poly::calc()
 {
@@ -115,7 +115,7 @@ int main()
         cin>>deg2;
         Poly p(deg1,deg2);
         p.getInput();
-        cout<<"\nres\n";
+        cout<<"\nSUM:\n";
         p.calc();
     }
     catch(List<float>::OVERFLOW())
