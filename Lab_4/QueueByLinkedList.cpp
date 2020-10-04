@@ -7,7 +7,7 @@ struct NODE
     NODE<t>* next;
 };
 template <class t>
-class StackL
+class QueueL
 {
     typedef NODE<t> Node;
     int sizeL;
@@ -16,12 +16,12 @@ class StackL
 public:
     class UNDERFLOW{};
     class OVERFLOW{};
-    StackL(int s=5):maxSize(s)
+    QueueL(int s=5):maxSize(s)
     {
         sizeL=0;
         start=nullptr;
     }
-    ~StackL()
+    ~QueueL()
     {
         if(start!=nullptr)
         {
@@ -38,20 +38,12 @@ public:
     {
         return sizeL;
     }
-    void peek()
-    {
-        if(start==nullptr)
-        {
-            throw UNDERFLOW();
-        }
-        cout<<start->item;
-    }
-    void push(t);
-    t pop();
-    //void display();
+    void enqueue(t);
+    t dequeue();
+    void display();
 };
 template <class t>
-void StackL<t>::push(t data)
+void QueueL<t>::enqueue(t data)
 {
     if(sizeL<maxSize)
     {
@@ -76,70 +68,83 @@ void StackL<t>::push(t data)
 
 }
 template <class t>
-t StackL<t>::pop()
+t QueueL<t>::dequeue()
 {
-    if(start==nullptr)
-        throw UNDERFLOW();
+    if(start == nullptr)
+            throw UNDERFLOW();
     sizeL--;
-    t temp=start->item;
-    start=start->next;
-    return temp;
+        t temp;
+        Node* p = start;
+        Node* q = nullptr;
+            for(;p->next != nullptr; q = p, p = p->next) ;
+        if(q == nullptr)
+        {
+            start = nullptr;
+        }
+        else
+        {
+            q->next = nullptr;
+        }
+        temp = p->item;
+        delete p;
+        return  temp;
 }
-/*template <class t>
-void StackL<t>::display()
+template <class t>
+void QueueL<t>::display()
 {
     if(start == nullptr)
         throw UNDERFLOW();
-    Node<t>* p = start;
+    Node* p = start;
     for(; p != nullptr ; p = p->next)
         std::cout<<" "<<p->item;
-}*/
+}
 int main()
 {
     int op,sizeSt,num;
-    cout<<"Size of Stack:";
+    cout<<"Size of Queue:";
     cin>>num;
     sizeSt=num;
-    StackL<int> s(num);
+    QueueL<int> s(num);
     while(1)
     {
     try
     {
-        cout<<"\nEnter Operation:\t1)Push\t2)Pop\t3)Exit:";
+        cout<<"\nEnter Operation:\t1)Enqueue\t2)Dequeue\t3)Exit:";
         cin>>op;
         if(op==1)
         {
             if(s.getSize()<sizeSt)
             {
-                cout<<"\nEnter number to be pushed:";
+                cout<<"\nEnter number to be enqueued:";
                 cin>>num;
-                s.push(num);
-                cout<<"\nTop of Stack:\t";
-                s.peek();
+                s.enqueue(num);
+                cout<<"\nData in Queue:\t";
+                s.display();
             }
             else
             {
-                throw(StackL<int>::OVERFLOW());
+                throw(QueueL<int>::OVERFLOW());
             }
         }
         else if(op==2)
         {
-            s.pop();
-            cout<<"\nTop of Stack:\t";
-            s.peek();
+            s.dequeue();
+            cout<<"\nData in Queue:\t";
+            s.display();
         }
         else
         {
            exit(0);
         }
     }
-    catch(StackL<int>::UNDERFLOW)
+
+    catch(QueueL<int>::UNDERFLOW)
     {
-        cout<<"\nStack is Empty!";
+        cout<<"\nQueue is Empty!";
     }
-    catch(StackL<int>::OVERFLOW)
+    catch(QueueL<int>::OVERFLOW)
     {
-        cout<<"\nStack is Full!";
+        cout<<"\nQueue is Full!";
     }
     }
     return 0;
