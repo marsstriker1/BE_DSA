@@ -53,8 +53,8 @@ public:
         return start->item;
     }
     void insertAtFront(t);
+    void insertAtEnd(t);
     t removeFromFront();
-    t removeFromEnd();
     void display();
 };
 template <class t>
@@ -82,7 +82,7 @@ void List<t>::insertAtFront(t data)
     }
 
 }
-/*template<class t>
+template<class t>
 void List<t>::insertAtEnd(t _item)
 {
     if(sizeL<maxSize)
@@ -107,7 +107,7 @@ void List<t>::insertAtEnd(t _item)
     {
         throw OVERFLOW{};
     }
-}*/
+}
 template <class t>
 t List<t>::removeFromFront()
 {
@@ -118,7 +118,7 @@ t List<t>::removeFromFront()
     start=start->next;
     return temp;
 }
-template <class t>
+/*template <class t>
 t List<t>::removeFromEnd()
 {
     if(start==nullptr)
@@ -137,7 +137,7 @@ t List<t>::removeFromEnd()
     temp=p->item;
     delete p;
     return temp;
-}
+}*/
 template <class t>
 void List<t>::display()
 {

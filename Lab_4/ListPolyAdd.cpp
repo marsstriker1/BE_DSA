@@ -1,126 +1,164 @@
 #include <iostream>
-#include <iomanip>
-#include "List.h"
 using namespace std;
+template <class t>
+struct NODE
+{
+    t coef;
+    int deg;
+    NODE<t>* next;
+};
+template <class t>
 class Poly
 {
-    const int coefNum1;
-    const int coefNum2;
-public:
-    List<float> p1;
-    List<float> p2;
-    Poly(int n1,int n2):coefNum1(n1),coefNum2(n2)
+    typedef NODE<t> Node;
+    Node* start;
+    public:
+    Poly()
     {
-        p1.setMax(coefNum1+1);
-        p2.setMax(coefNum2+1);
+        start=nullptr;
+    }
+    ~Poly()
+    {
+        if(start!=nullptr)
+        {
+            Node* p=start;
+            for(;p!=nullptr;p=p->next)
+            delete p;
+        }
     }
     void getInput();
-    void displayP(List<float>);
-    List<float> add(List<float> ,List <float> );
-    void calc();
+    void insertInPoly(t,int);
+    void display();
+    Poly operator+(Poly);
+
 };
-void Poly::displayP(List<float> _list)
+template <class t>
+void Poly<t>::getInput()
 {
-    for(int i=_list.sizeG();i>0;i--)
+    t coef;
+    int deg;
+    char op;
+    do
     {
-        cout<<_list.removeFromFront()<<"x^"<<i-1<<" + ";
-    }
-    cout<<"\b\b\b\b\b\b      \b\b\b\b\b\b";
+        cout<<"\nEnter coefficient: ";
+        cin>>coef;
+        cout<<"Enter degree: ";
+        cin>>deg;
+        insertInPoly(coef,deg);
+        cout<<"Continue?(Y/N):";
+        cin>>op;
+    }while (toupper(op)=='Y');
 }
-void Poly::calc()
+template <class t>
+Poly<t> Poly<t>::operator+(Poly<t> addend)
 {
-    List<float> res;
-    res=add(p1,p2);
-    cout<<"\t";
-    displayP(res);
-}
-List<float> Poly::add(List<float> La,List <float> Lb)
-{
-    int diff;
-    List<float> a=La;
-    List<float> b=Lb;
-    List<float> res;
-    cout<<"\n--------------------------------ADDING--------------------------------\n\t";
-    displayP(La);
-    cout<<"\n\n+\t";
-    displayP(Lb);
-    cout<<"\n--------------------------------------------------------\n";
-    if(coefNum1>=coefNum2)
+    Poly<t> res;
+    Node* p= start;
+    Node* q= addend.start;
+    while(p!=nullptr && q!=nullptr)
     {
-        diff=coefNum1-coefNum2;
-        List<float> sum(coefNum1+1);
-        for(int i=0;i<diff;i++)
+        if(p->deg==q->deg)
         {
-            sum.insertAtEnd(a.removeFromFront());
+            res.insertInPoly(p->coef + q->coef , p->deg);
+            p = p->next;
+            q = q->next;
         }
-        for(int i=0;i<=coefNum1-diff+1;i++)
+        else if(p->deg > q->deg)
         {
-            try
-            {
-            float added=a.removeFromFront()+b.removeFromFront();
-            sum.insertAtEnd(added);
-            }
-            catch(List<float>::UNDERFLOW)
-            {
-                cout<<"";
-            }
+            res.insertInPoly(p->coef,p->deg);
+            p = p->next;
         }
-        res=sum;
+        else
+        {
+            res.insertInPoly(q->coef,q->deg);
+            q = q->next;
+        }
     }
-    else
+    if(p!=nullptr)
     {
-        diff=coefNum2-coefNum1;
-        List<float> sum(coefNum2+1);
-        for(int i=0;i<diff;i++)
-        {
-            sum.insertAtEnd(b.removeFromFront());
-        }
-        for(int i=0;i<=coefNum1-diff+1;i++)
-        {
-            float added=a.removeFromFront()+b.removeFromFront();
-            sum.insertAtEnd(added);
-        }
-        res=sum;
+        for(;p!=nullptr;p=p->next)
+        res.insertInPoly(p->coef,p->deg);
+    }
+    else if(q!=nullptr)
+    {
+        for(;q!=nullptr;q=q->next)
+        res.insertInPoly(q->coef,q->deg);
     }
     return res;
 }
-void Poly::getInput()
+template <class t>
+void Poly<t>::insertInPoly(t coef,int deg)
 {
-    cout<<"Enter first Polynomial:\n";
-    for(int i=0;i<=coefNum1;i++)
+    Node* newNode = new Node();
+    newNode->coef=coef;
+    newNode->deg=deg;
+    newNode->next=nullptr;
+    if(start==nullptr)
     {
-        float num;
-        cout<<"Coefficient of x^"<<i<<" :";
-        cin>>num;
-        p1.insertAtFront(num);
+        start=newNode;
+        return;
     }
-    cout<<"Enter second Polynomial:\n";
-    for(int i=0;i<=coefNum2;i++)
+    Node* p;
+    Node* q;
+    for(p=start,q=nullptr;p!=nullptr && deg<=p->deg;q=p,p=p->next);
+    //traverses list to the node just before node having degree less than given degree
+    if(p!=nullptr && q==nullptr)
     {
-        float num;
-        cout<<"Coefficient of x^"<<i<<" :";
-        cin>>num;
-        p2.insertAtFront(num);
+        newNode->next=p;
+        start=newNode;
     }
+    else if(p!=nullptr && q!=nullptr)
+    {
+        if(q->deg==deg)
+        q->coef=coef;
+        else
+        {
+            newNode->next=q->next;
+            q->next=newNode;
+        }
+    }
+    else if(p==nullptr)
+    {
+        q->next=newNode;
+        return;
+    }
+}
+template <class t>
+void Poly<t>::display()
+{
+    if(start==nullptr)
+    {
+        cout<<"";
+        return;
+    }
+    Node* p=start;
+    bool backsp=true;
+    for(;p!=nullptr;p=p->next)
+    {
+        if(p->deg==0)
+        {
+            cout<<p->coef;
+            backsp=false;
+        }
+        else
+            cout<<p->coef<<"x^"<<p->deg<<" + ";
+    }
+    if(backsp)
+    cout<<"\b\b\b   \b\b\b";
 }
 int main()
 {
-    int deg1,deg2;
-    List<float> l;
-    try
-    {
-        cout<<"Enter Degree of Polynomial 1:";
-        cin>>deg1;
-        cout<<"Enter Degree of Polynomial 2:";
-        cin>>deg2;
-        Poly p(deg1,deg2);
-        p.getInput();
-        cout<<"\nSUM:\n";
-        p.calc();
-    }
-    catch(List<float>::OVERFLOW())
-    {
-        cout<<"Too many coefficients!";
-    }
+    Poly<int> P1,P2,res;
+    cout<<"\nEnter Polynomial 1:";
+    P1.getInput();
+    cout<<"\nEnter Polynomial 2:";
+    P2.getInput();
+    cout<<"\n-------------------------Adding-------------------------\n\t";
+    P1.display();
+    cout<<"\n\n+\t";
+    P2.display();
+    cout<<"\n---------------------------------------------------------\n\t";
+    res=P1+P2;
+    res.display();
+    return 0;
 }
-
