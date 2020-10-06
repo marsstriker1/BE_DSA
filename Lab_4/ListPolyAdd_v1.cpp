@@ -242,4 +242,3 @@ int main()
     cout<<"\n\n";
     p.calc();
 }
-
