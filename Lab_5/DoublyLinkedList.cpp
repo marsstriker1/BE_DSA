@@ -7,18 +7,18 @@ struct NODE
     NODE<t>* prev;
 };
 template <class t>
-class DoubList
+class DoublyLinkedList
 {
     typedef NODE<t> Node;
     Node * start;
     public:
     class UNDERFLOW{};
     class INVALID_INDEX{};
-    DoubList()
+    DoublyLinkedList()
     {
         start=nullptr;
     }
-    ~DoubList()
+    ~DoublyLinkedList()
     {
         if(start==nullptr)
             delete start;
@@ -43,11 +43,11 @@ class DoubList
 };
 
 template <class t>
-void DoubList<t>::display()
+void DoublyLinkedList<t>::display()
 {
     if(start==nullptr)
         throw UNDERFLOW();
-    std::cout<<"Data in List:";
+    std::cout<<"Data in List:\t";
     for(Node* n=start;n!=nullptr;n=n->next)
     {
         std::cout<<'\t'<<n->item;
@@ -56,7 +56,7 @@ void DoubList<t>::display()
 }
 
 template <class t>
-NODE<t> * DoubList<t>::getNodeAtIndex(int index)
+NODE<t> * DoublyLinkedList<t>::getNodeAtIndex(int index)
 {
     if(start==nullptr)
         throw UNDERFLOW();
@@ -72,7 +72,7 @@ NODE<t> * DoubList<t>::getNodeAtIndex(int index)
     return node;
 }
 template <class t>
-void DoubList<t>::insertAtFront(t data)
+void DoublyLinkedList<t>::insertAtFront(t data)
 {
     Node * newNode=new Node();
     newNode->item=data;
@@ -91,7 +91,7 @@ void DoubList<t>::insertAtFront(t data)
 }
 
 template <class t>
-void DoubList<t>::insertAtEnd(t data)
+void DoublyLinkedList<t>::insertAtEnd(t data)
 {
     Node * newNode=new Node();
     newNode->item=data;
@@ -112,7 +112,7 @@ void DoubList<t>::insertAtEnd(t data)
 }
 
 template <class t>
-void DoubList<t>::insertAfter(Node* spNode,t data)
+void DoublyLinkedList<t>::insertAfter(Node* spNode,t data)
 {
     Node* newNode = new Node();
 
@@ -124,23 +124,23 @@ void DoubList<t>::insertAfter(Node* spNode,t data)
 }
 
 template <class t>
-void DoubList<t>::insertBefore(Node* spNode,t data)
+void DoublyLinkedList<t>::insertBefore(Node* spNode,t data)
 {
     Node * newNode= new Node();
 
     newNode->item = data;
-    newNode->next = spNode;
     newNode->prev = spNode->prev;
+    newNode->next = spNode;
 
     if(spNode!=start)
         (spNode->prev)->next = newNode;
     else
-        start = newNode;
-    spNode->prev = start;
+                start = newNode;
+    spNode->prev= newNode;
 }
 
 template <class t>
-t DoubList<t>::deleteFromFront()
+t DoublyLinkedList<t>::deleteFromFront()
 {
     if(start==nullptr)
         throw UNDERFLOW();
@@ -157,7 +157,7 @@ t DoubList<t>::deleteFromFront()
 }
 
 template <class t>
-t DoubList<t>::deleteFromEnd()
+t DoublyLinkedList<t>::deleteFromEnd()
 {
     bool loopEntered=false;     //is set to true if list has mode than 1 nodes
     if(start==nullptr)
@@ -181,10 +181,8 @@ t DoubList<t>::deleteFromEnd()
 }
 
 template <class t>
-t DoubList<t>::deleteBefore(NODE<t>* spNode)
+t DoublyLinkedList<t>::deleteBefore(NODE<t>* spNode)
 {
-    // if(start==nullptr)
-    //     throw UNDERFLOW();
     if(spNode == start)
         throw INVALID_INDEX();
     t temp;
@@ -192,21 +190,22 @@ t DoubList<t>::deleteBefore(NODE<t>* spNode)
     tempNode = spNode->prev;
     temp = tempNode->item;
     if(spNode->prev==start)
+    {
         start = spNode;
+        start->prev=nullptr;
+    }
     else
     {
         (tempNode->prev)->next=spNode;
+         spNode->prev=tempNode->prev;
     }
-    spNode->prev=tempNode->prev;
     delete tempNode;
     return temp;
 }
 
 template <class t>
-t DoubList<t>::deleteAfter(Node * spNode)
+t DoublyLinkedList<t>::deleteAfter(Node * spNode)
 {
-    // if(start==nullptr)
-    //     throw UNDERFLOW();
     if(spNode->next == nullptr)
         throw INVALID_INDEX();
     t temp;
@@ -225,7 +224,7 @@ class INVALID_SELECTION{};
 int main()
 {
     int sel;
-    DoubList<int> dl;
+    DoublyLinkedList<int> dl;
     int num,index;
     while(1)
     {
@@ -287,11 +286,11 @@ int main()
             }
             dl.display();
         }
-        catch(DoubList<int>::UNDERFLOW)
+        catch(DoublyLinkedList<int>::UNDERFLOW)
         {
             std::cerr<<"List is empty!\n";
         }
-        catch(DoubList<int>::INVALID_INDEX)
+        catch(DoublyLinkedList<int>::INVALID_INDEX)
         {
             std::cerr<<"Inavlid index selected!\n";
         }
