@@ -4,16 +4,23 @@ class Factorial
 {
     static t findFact(int n,int a)
     {
+        std::cout<<n<<"*";
         if(n==1)
+        {
+            std::cout<<"\b \b = ";
             return a;
+        }
         return findFact(n-1,a*n);
     }
 public:
-    class INVALID_NUMBER{};
-    static t findFactFor(t num)
+    static void checkValidity(t num)
     {
         if(num<0)
             throw INVALID_NUMBER();
+    }
+    class INVALID_NUMBER{};
+    static t findFactFor(t num)
+    {
         return findFact(num,1);
     }
 
@@ -60,8 +67,8 @@ int main()
         {
             std::cout<<"\nEnter the number to evaluate factorial:\t";
             std::cin>>num;
-            int ans = Factorial<int>::findFactFor(num);
-            std::cout<<"\nThe factorial of "<<num<<" is "<<ans;
+            Factorial<int>::checkValidity(num);
+            std::cout<<"\nThe factorial of "<<num<<" is "<<Factorial<int>::findFactFor(num);
         }
         else if(num == 2)
         {
